@@ -8,3 +8,4 @@ services:
       MYSQL_ROOT_PASSWORD: invoiceee
     ports:
       - "3306:3306"
+
