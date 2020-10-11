@@ -33,6 +33,7 @@ class Freee
                 'redirect_uri' => env('FREEE_CALLBACK_URL'),
             ],
         ]);
-        var_dump((string) $response->getBody()->getContents());
+        $json = json_decode($response->getBody()->getContents(), true);
+        return new FreeeToken($json['access_token']);
     }
 }
