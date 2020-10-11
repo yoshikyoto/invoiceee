@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<ruleset name="PSR12/Laravel">
+    <arg name="extensions" value="php" />
+    <rule ref="PSR12" />
+
+    <!-- オプション p:進捗表示  s:エラー表示時にルールを表示 -->
+    <arg value="ps" />
+
+    <!-- 対象のファイル -->
+    <file>app</file>
+
+    <!-- 除外ファイル -->
+    <!-- Laravel デフォルトで存在しているもので、 PSR12 でエラーになるもの -->
+    <exclude-pattern>/app/Console/Kernel.php</exclude-pattern>
+</ruleset>
