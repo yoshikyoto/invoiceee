@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\FreeeAuthController;
+use App\Http\Controllers\HerokuAuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,3 +18,4 @@ use App\Http\Controllers\FreeeAuthController;
 
 Route::get('/', Controller::class . '@index');
 Route::get('/freee/callback', FreeeAuthController::class . '@callback');
+Route::get('/heroku/callback', HerokuAuthController::class . '@callback');

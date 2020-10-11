@@ -21,7 +21,7 @@ class Freee
         return "{$baseUrl}?{$queryString}";
     }
 
-    public function getToken(string $code)
+    public function getToken(string $code): OAuth2Token
     {
         $client = new Client();
         $response = $client->post('https://accounts.secure.freee.co.jp/public_api/token', [
