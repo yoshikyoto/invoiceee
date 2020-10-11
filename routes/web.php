@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\FreeeAuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,3 +16,4 @@ use App\Http\Controllers\Controller;
 */
 
 Route::get('/', Controller::class . '@index');
+Route::get('/freee/callback', FreeeAuthController::class . '@callback');
