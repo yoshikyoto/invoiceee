@@ -1,0 +1,14 @@
+name: StyleCI
+on: [push, pull_request]
+jobs:
+  Analyze:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: "7.4"
+          extensions: curl
+      - uses: nathane/styleci-action@latest
+        with:
+          styleci_api_key: z5nyX5P8FtCdDqSUwGruK75E2Q6BDPoj9vstpkqO
