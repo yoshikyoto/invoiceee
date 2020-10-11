@@ -34,6 +34,6 @@ class Freee
             ],
         ]);
         $json = json_decode($response->getBody()->getContents(), true);
-        return new FreeeToken($json['access_token']);
+        return new OAuth2Token($json['access_token']);
     }
 }

@@ -19,6 +19,7 @@ class FreeeAuthController extends Controller
     {
         $code = $request->input('code');
         var_dump($code);
-        $this->freee->getToken($code);
+        $token = $this->freee->getToken($code);
+        var_dump($token);
     }
 }

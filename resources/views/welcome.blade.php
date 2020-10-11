@@ -7,6 +7,11 @@
         <title>Laravel</title>
     </head>
     <body class="antialiased">
-    <a href="{{ $freeeAuthUrl }}">Freee連携</a>
+    <div>
+        <a href="{{ $freeeAuthUrl }}">Freee連携</a>
+    </div>
+    <div>
+        <a href="{{ $herokuAuthUrl }}">Heroku連携</a>
+    </div>
     </body>
 </html>

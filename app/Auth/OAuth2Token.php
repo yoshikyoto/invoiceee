@@ -4,7 +4,7 @@
 namespace App\Auth;
 
 
-class FreeeToken
+class OAuth2Token
 {
     private string $token;
 
