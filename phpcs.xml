@@ -8,8 +8,4 @@
 
     <!-- 対象のファイル -->
     <file>app</file>
-
-    <!-- 除外ファイル -->
-    <!-- Laravel デフォルトで存在しているもので、 PSR12 でエラーになるもの -->
-    <!-- <exclude-pattern>/app/Console/Kernel.php</exclude-pattern> -->
 </ruleset>
