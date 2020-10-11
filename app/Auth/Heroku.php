@@ -13,7 +13,7 @@ class Heroku
         $params = [
             'client_id' => $clientId,
             'response_type' => 'code',
-            'scope' => 'read',
+            // 'scope' => 'read',
         ];
         $queryString = http_build_query($params);
         $baseUrl = 'https://id.heroku.com/oauth/authorize';
