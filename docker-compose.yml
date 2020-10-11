@@ -1,0 +1,10 @@
+services:
+  master_db:
+    image: mysql:8
+    environment:
+      MYSQL_DATABASE: invoiceee
+      MYSQL_USER: invoiceee
+      MYSQL_PASSWORD: invoiceee
+      MYSQL_ROOT_PASSWORD: invoiceee
+    ports:
+      - "3306:3306"
