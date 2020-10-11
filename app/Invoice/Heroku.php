@@ -5,6 +5,7 @@ namespace App\Invoice;
 use App\Auth\OAuth2Token;
 use Carbon\Carbon;
 use GuzzleHttp\Client;
+use GuzzleHttp\RequestOptions;
 
 class Heroku
 {
@@ -35,5 +36,23 @@ class Heroku
             );
         }
         return $invoices;
+    }
+
+    /**
+     * @param OAuth2Token $token
+     * @param HerokuInvoice $invoice
+     * @return string
+     */
+    public function getInvoiceHtml(OAuth2Token $token, HerokuInvoice $invoice): string
+    {
+        $response = $this->client->post(
+            'https://particleboard.heroku.com/account/invoices/' . $invoice->getNumber(),
+            [
+                RequestOptions::FORM_PARAMS => [
+                    'token' => $token->getToken(),
+                ],
+            ],
+        );
+        return $response->getBody()->getContents();
     }
 }
