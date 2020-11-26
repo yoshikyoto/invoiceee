@@ -2,11 +2,23 @@
 
 namespace App\Auth;
 
+use App\AbstractFactory\LoggerFactory;
 use GuzzleHttp\Client;
 use GuzzleHttp\RequestOptions;
+use Psr\Log\LoggerInterface;
 
 class Freee
 {
+    /**
+     * @var LoggerInterface
+     */
+    private $logger;
+
+    public function __construct(LoggerFactory $loggerFactory)
+    {
+        $this->logger = $loggerFactory->create();
+    }
+
     public function getAuthUrl(): string
     {
         $clientId = env('FREEE_CLIENT_ID');
@@ -24,7 +36,8 @@ class Freee
     public function getToken(string $code): OAuth2Token
     {
         $client = new Client();
-        $response = $client->post('https://accounts.secure.freee.co.jp/public_api/token', [
+        $uri = 'https://accounts.secure.freee.co.jp/public_api/token';
+        $options = [
             RequestOptions::FORM_PARAMS => [
                 'grant_type' => 'authorization_code',
                 'client_id' => env('FREEE_CLIENT_ID'),
@@ -32,8 +45,15 @@ class Freee
                 'code' => $code,
                 'redirect_uri' => env('FREEE_CALLBACK_URL'),
             ],
+        ];
+        $response = $client->post($uri, $options);
+        $json = $response->getBody()->getContents();
+        $this->logger->info('freeeのAPIからTokenを取得しました', [
+            'requestUri' => $uri,
+            'requestOptions' => $options,
+            'responseBody' => $json,
         ]);
-        $json = json_decode($response->getBody()->getContents(), true);
-        return new OAuth2Token($json['access_token']);
+        $array = json_decode($json, true);
+        return new OAuth2Token($array['access_token']);
     }
 }

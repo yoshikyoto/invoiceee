@@ -2,10 +2,16 @@
 
 namespace App\Http\Middleware;
 
-use Illuminate\Auth\Middleware\Authenticate as Middleware;
+use Illuminate\Http\Request;
 
-class Authenticate extends Middleware
+class Authenticate
 {
+
+    public function handler(Request $request, \Closure $next)
+    {
+        $userId = $request->session()->get('userId');
+    }
+
     /**
      * Get the path the user should be redirected to when they are not authenticated.
      *

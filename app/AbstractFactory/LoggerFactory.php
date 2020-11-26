@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Log;
+namespace App\AbstractFactory;
 
 use Illuminate\Support\Facades\Log;
 use Psr\Log\LoggerInterface;

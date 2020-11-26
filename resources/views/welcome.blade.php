@@ -8,10 +8,10 @@
     </head>
     <body class="antialiased">
     <div>
-        <a href="{{ $freeeAuthUrl }}">Freee連携</a>
+        <a href="{{ $freeeAuthUrl }}">Freeeでアカウント作成・ログイン</a>
     </div>
     <div>
-        <a href="{{ $herokuAuthUrl }}">Heroku連携</a>
+        <a href="{{ $herokuAuthUrl }}">Herokuと連携</a>
     </div>
     </body>
 </html>

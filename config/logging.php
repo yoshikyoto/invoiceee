@@ -43,7 +43,7 @@ return [
 
         'file' => [
             'driver' => 'single',
-            'path' => storage_path('/var/log/invoicee.log'),
+            'path' => '/tmp/invoicee.log',
             'level' => env('LOG_LEVEL', 'debug'),
         ],
 
