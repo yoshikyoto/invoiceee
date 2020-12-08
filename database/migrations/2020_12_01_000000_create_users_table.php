@@ -15,8 +15,6 @@ class CreateUsersTable extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('freee_user_id')->nullable();
-            $table->string('freee_token')->nullable();
             $table->timestamps();
         });
     }
