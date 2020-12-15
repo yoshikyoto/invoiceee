@@ -32,7 +32,7 @@ class FreeeApi
         ];
         $response = $this->client->get($uri, $options);
         $json = $response->getBody()->getContents();
-        $this->logger->info('freeeのAPIからユーザー情報を取得しました', [
+        $this->logger->info('freee API GET /api/1/users/me', [
             'requestUri' => $uri,
             'requestOptions' => $options,
             'responseBody' => $json,

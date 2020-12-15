@@ -14,7 +14,7 @@ class CreateFreeeUsersTable extends Migration
     public function up()
     {
         Schema::create('freee_users', function (Blueprint $table) {
-            $table->bigInteger('id')->unique();
+            $table->unsignedBigInteger('id')->unique();
             $table->foreign('id')->references('id')->on('users');
             $table->string('freee_user_id')->nullable();
             $table->string('freee_token')->nullable();

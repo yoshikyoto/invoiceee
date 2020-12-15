@@ -2,31 +2,36 @@
 
 namespace App\Http\Controllers;
 
+use App\AbstractFactory\LoggerFactory;
 use App\User\UserAccountLinker;
 use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
 use App\Auth\Freee;
+use Psr\Log\LoggerInterface;
 
 class FreeeAuthController extends Controller
 {
     private Freee $freee;
     private UserAccountLinker $userAccountLiker;
+    private LoggerInterface $logger;
 
     public function __construct(
         Freee $freee,
-        UserAccountLinker $userAccountLiker
+        UserAccountLinker $userAccountLiker,
+        LoggerFactory $loggerFactory
     ) {
         $this->freee = $freee;
         $this->userAccountLiker = $userAccountLiker;
+        $this->logger = $loggerFactory->create();
     }
 
     public function callback(Request $request)
     {
         $code = $request->input('code');
-        var_dump($code);
         $token = $this->freee->getToken($code);
-        var_dump($token);
         $user = $this->userAccountLiker->getOrCreateUserWithFreeeToken($token);
-        session('userId', $user->getId());
+        $this->logger->info('セッションに userId をセットし、 index にリダイレクトします');
+        $request->session()->put('userId', $user->getId());
+        redirect('index');
     }
 }

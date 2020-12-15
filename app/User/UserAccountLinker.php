@@ -2,7 +2,6 @@
 
 namespace App\User;
 
-use App\Auth\Freee;
 use App\Auth\OAuth2Token;
 use App\Freee\FreeeApi;
 
@@ -23,10 +22,24 @@ class UserAccountLinker
     {
         $freeeUser = $this->freeeApi->getMe($freeeToken);
         $user = $this->userRepository->getUserByFreeeId($freeeUser->getId());
+
         if ($user === null) {
-            $user = $this->userRepository->createUser($freeeUser);
+            // ユーザーレコードを作成
+            $user = $this->userRepository->createUser();
+            $this->userRepository->saveFreeeUserAndToken(
+                $user,
+                $freeeUser,
+                $freeeToken
+            );
+        } else {
+            // ユーザーはすでにあるので free の token だけ更新
+            $this->userRepository->saveFreeeUserAndToken(
+                $user,
+                $freeeUser,
+                $freeeToken
+            );
+
         }
-        $user = $this->userRepository->saveFreeeToken($user, $freeeToken);
         return $user;
     }
 }

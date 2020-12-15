@@ -7,9 +7,6 @@ use App\Auth\Freee;
 
 class FreeeTest extends TestCase
 {
-    /**
-     * @test
-     */
     public function 認証のURLを正常に生成できる()
     {
         $freee = new Freee();
