@@ -42,7 +42,6 @@ class UserAccountLinker
                 $freeeUser,
                 $freeeToken
             );
-
         }
         return $user;
     }

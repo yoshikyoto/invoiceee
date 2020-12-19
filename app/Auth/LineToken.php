@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Auth;
-
 
 class LineToken extends OAuth2Token
 {

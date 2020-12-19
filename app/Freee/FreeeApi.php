@@ -32,11 +32,14 @@ class FreeeApi
         ];
         $response = $this->client->get($uri, $options);
         $json = $response->getBody()->getContents();
-        $this->logger->info('freee API GET /api/1/users/me', [
-            'requestUri' => $uri,
-            'requestOptions' => $options,
-            'responseBody' => $json,
-        ]);
+        $this->logger->info(
+            'freee API GET /api/1/users/me',
+            [
+                'requestUri' => $uri,
+                'requestOptions' => $options,
+                'responseBody' => $json,
+            ]
+        );
         $array = json_decode($json, true);
         return new FreeeUser($array['user']['id']);
     }

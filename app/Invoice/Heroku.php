@@ -19,13 +19,15 @@ class Heroku
     {
         $client = new Client();
         $response = $client->get(
-            'https://api.heroku.com/account/invoices', [
-            'headers' => [
-                // AcceptパラメータでAPIのバージョンを指定する
-                'Accept' => 'application/vnd.heroku+json; version=3',
-                'Authorization' => 'Bearer ' . $token->getToken(),
-            ],
-        ]);
+            'https://api.heroku.com/account/invoices',
+            [
+                'headers' => [
+                    // AcceptパラメータでAPIのバージョンを指定する
+                    'Accept' => 'application/vnd.heroku+json; version=3',
+                    'Authorization' => 'Bearer ' . $token->getToken(),
+                ],
+            ]
+        );
         $json = json_decode($response->getBody()->getContents(), true);
 
         $invoices = [];

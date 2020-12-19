@@ -7,7 +7,6 @@ use GuzzleHttp\Client;
 use GuzzleHttp\RequestOptions;
 use Psr\Log\LoggerInterface;
 
-
 class Line
 {
     private Client $client;
