@@ -9,6 +9,7 @@ use GuzzleHttp\RequestOptions;
 
 class Heroku
 {
+
     /**
      * @param OAuth2Token $token
      * @return HerokuInvoice[]

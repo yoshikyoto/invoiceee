@@ -5,6 +5,8 @@ namespace App\User;
 use App\AbstractFactory\LoggerFactory;
 use App\Auth\OAuth2Token;
 use App\Freee\FreeeUser;
+use App\Model\LineUser;
+use App\Model\Linkage;
 use App\Model\User as UserModel;
 use App\Model\FreeeUser as FreeeUserModel;
 use Psr\Log\LoggerInterface;
@@ -25,7 +27,7 @@ class UserRepository
             'file' => __FILE__,
             'line' => __LINE__,
         ]);
-        return User::find($id);
+        return UserModel::find($id);
     }
 
     public function getUserByFreeeId(int $freeeUserId): ?User
@@ -60,9 +62,8 @@ class UserRepository
             'freeeUserId' => $freeeUser->getId(),
             'freeeToken' => $token->getToken(),
         ]);
-        FreeeUserModel::createFreeeUser(
+        FreeeUserModel::updateToken(
             $user->getId(),
-            $freeeUser->getId(),
             $token->getToken(),
         );
     }
@@ -70,9 +71,32 @@ class UserRepository
     public function updateFreeeToken(User $user, OAuth2Token $token): FreeeUserModel
     {
         $this->logger->info('FreeUser DB の freeeToken を更新します', [
-            'user' => $user->getId(),
+            'userId' => $user->getId(),
             'freeeToken' => $token->getToken(),
         ]);
         return FreeeUserModel::updateToken($user->getId(), $token->getToken());
+    }
+
+    public function updateLineUserId(User $user, string $lineUserId)
+    {
+        $this->logger->info('LineUser DB に lineUserId を保存', [
+            'userId' => $user->getId(),
+            'lineUserId' => $lineUserId,
+        ]);
+        LineUser::updateLineUserId($user->getId(), $lineUserId);
+    }
+
+    public function createHerokuLinkage(User $user, string $herokuUserId, OAuth2Token $token)
+    {
+        Linkage::createHeroku($user->getId(), $herokuUserId, $token->getToken());
+    }
+
+    /**
+     * @param User $user
+     * @return Linkage[] Linkage の Collection
+     */
+    public function getAllLinkages(User $user)
+    {
+        return Linkage::getAllLinkages($user->getId());
     }
 }

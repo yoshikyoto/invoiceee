@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Middleware;
+namespace App\Http;
 
 use App\User\User;
 use App\User\UserRepository;
 use Illuminate\Http\Request;
 use Psr\Log\LoggerInterface;
 
-class Authenticate
+class UserResolver
 {
     private UserRepository $userRepository;
     private LoggerInterface $logger;
@@ -20,15 +20,12 @@ class Authenticate
         $this->logger = $logger;
     }
 
-    public function handle(Request $request, \Closure $next)
+    public function getUser(Request $request): ?User
     {
         $userId = $request->session()->get('userId');
         $user = $this->getUserFromSession($userId);
         $this->log($userId, $user);
-        if ($user === null) {
-            return $this->redirectToLoginPage();
-        }
-        return $next($request);
+        return $user;
     }
 
     private function getUserFromSession(?int $userId): ?User
@@ -42,7 +39,7 @@ class Authenticate
 
     private function log(?int $userId, ?User $user)
     {
-        $this->logger->info('認証ミドルウェア', [
+        $this->logger->info('Http.UserResolver', [
             'userId' => $userId,
             'user' => $user,
         ]);

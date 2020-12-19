@@ -5,6 +5,9 @@ use App\Http\Controllers\Controller;
 use App\Http\Controllers\FreeeAuthController;
 use App\Http\Controllers\HerokuAuthController;
 use App\Http\Controllers\HerokuInvoiceController;
+use App\Http\Controllers\LineAuthController;
+use App\Http\Controllers\LineAccountController;
+use App\Http\Middleware\Authenticate;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,4 +27,6 @@ Route::get(
 
 Route::get('/freee/callback', FreeeAuthController::class . '@callback');
 Route::get('/heroku/callback', HerokuAuthController::class . '@callback');
+Route::get('/line/callback', LineAuthController::class . '@callback');
 Route::get('/invoice/heroku', HerokuInvoiceController::class . '@list');
+Route::post('/line-user', LineAccountController::class . '@postLineAccount');

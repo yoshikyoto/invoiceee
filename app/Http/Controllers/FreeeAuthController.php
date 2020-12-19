@@ -32,6 +32,6 @@ class FreeeAuthController extends Controller
         $user = $this->userAccountLiker->getOrCreateUserWithFreeeToken($token);
         $this->logger->info('セッションに userId をセットし、 index にリダイレクトします');
         $request->session()->put('userId', $user->getId());
-        redirect('index');
+        return redirect()->route('index');
     }
 }
