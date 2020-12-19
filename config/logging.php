@@ -17,7 +17,7 @@ return [
     |
     */
 
-    'default' => 'stack',
+    'default' => 'file',
 
     /*
     |--------------------------------------------------------------------------
@@ -35,9 +35,9 @@ return [
     */
 
     'channels' => [
-        'stack' => [
+        'file_and_console' => [
             'driver' => 'stack',
-            'channels' => ['file'],
+            'channels' => ['file', 'stdout'],
             'ignore_exceptions' => false,
         ],
 
@@ -71,6 +71,14 @@ return [
             'formatter' => env('LOG_STDERR_FORMATTER'),
             'with' => [
                 'stream' => 'php://stderr',
+            ],
+        ],
+
+        'stdout' => [
+            'driver' => 'monolog',
+            'handler' => StreamHandler::class,
+            'with' => [
+                'stream' => 'php://stdout',
             ],
         ],
 

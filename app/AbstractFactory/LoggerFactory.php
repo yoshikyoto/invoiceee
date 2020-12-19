@@ -13,4 +13,9 @@ class LoggerFactory
         // default に指定されているチャンネルになる
         return Log::channel();
     }
+
+    public function createForConsole(): LoggerInterface
+    {
+        return Log::channel('file_and_console');
+    }
 }

@@ -21,7 +21,11 @@ class CreateLinkagesTable extends Migration
             $table->string('service_name');
             $table->string('service_account_id');
             $table->string('api_access_token');
+            $table->date('last_invoice_downloaded_at')->nullable();
             $table->timestamps();
+
+            // ユーザーごとにサービスのインデックス
+            $table->index(['id', 'service_name']);
         });
     }
 

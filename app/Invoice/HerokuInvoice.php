@@ -4,7 +4,7 @@ namespace App\Invoice;
 
 use Carbon\Carbon;
 
-class HerokuInvoice
+class HerokuInvoice implements Invoice
 {
     private string $id;
 

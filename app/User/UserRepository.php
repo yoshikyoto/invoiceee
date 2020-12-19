@@ -95,8 +95,8 @@ class UserRepository
      * @param User $user
      * @return Linkage[] Linkage の Collection
      */
-    public function getAllLinkages(User $user)
+    public function getAllLinkagesFor(User $user)
     {
-        return Linkage::getAllLinkages($user->getId());
+        return Linkage::getAllLinkagesFor($user->getId());
     }
 }

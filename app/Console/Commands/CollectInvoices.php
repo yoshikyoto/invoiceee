@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Invoice\InvoiceCollector;
 use Illuminate\Console\Command;
 
 class CollectInvoices extends Command
@@ -18,16 +19,19 @@ class CollectInvoices extends Command
      *
      * @var string
      */
-    protected $description = '請求書を収集します';
+    protected $description = '請求書ファイルを収集します';
+
+    private InvoiceCollector $collector;
 
     /**
      * Create a new command instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(InvoiceCollector $collector)
     {
         parent::__construct();
+        $this->collector = $collector;
     }
 
     /**
@@ -37,6 +41,8 @@ class CollectInvoices extends Command
      */
     public function handle()
     {
+        $this->info('請求書ファイルを収集します');
+        $this->collector->collect();
         return 0;
     }
 }

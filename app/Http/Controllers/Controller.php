@@ -52,7 +52,7 @@ class Controller extends BaseController
             $linkages = null;
         } else {
             $user = $this->userRepository->get($userId);
-            $linkages = $this->userRepository->getAllLinkages($user);
+            $linkages = $this->userRepository->getAllLinkagesFor($user);
         }
 
         return view('index', [

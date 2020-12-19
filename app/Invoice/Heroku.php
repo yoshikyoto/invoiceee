@@ -2,13 +2,20 @@
 
 namespace App\Invoice;
 
+use App\AbstractFactory\HttpClientFactory;
 use App\Auth\OAuth2Token;
 use Carbon\Carbon;
 use GuzzleHttp\Client;
 use GuzzleHttp\RequestOptions;
 
-class Heroku
+class Heroku implements InvoiceDownloader
 {
+    private Client $client;
+
+    public function __construct(HttpClientFactory $clientFactory)
+    {
+        $this->client = $clientFactory->create();
+    }
 
     /**
      * @param OAuth2Token $token
@@ -17,11 +24,10 @@ class Heroku
      */
     public function getInvoices(OAuth2Token $token): array
     {
-        $client = new Client();
-        $response = $client->get(
+        $response = $this->client->get(
             'https://api.heroku.com/account/invoices',
             [
-                'headers' => [
+                RequestOptions::HEADERS => [
                     // AcceptパラメータでAPIのバージョンを指定する
                     'Accept' => 'application/vnd.heroku+json; version=3',
                     'Authorization' => 'Bearer ' . $token->getToken(),
@@ -43,11 +49,21 @@ class Heroku
 
     /**
      * @param OAuth2Token $token
-     * @param HerokuInvoice $invoice
-     * @return string
+     * TODO ここのバイナリ取得あたりなんかいい感じにならないか
+     * @param Invoice $invoice
+     * @return InvoiceBinary
      */
-    public function getInvoiceHtml(OAuth2Token $token, HerokuInvoice $invoice): string
-    {
+    public function getInvoiceBinary(
+        OAuth2Token $token,
+        Invoice $invoice
+    ): InvoiceBinary {
+        if (!($invoice instanceof HerokuInvoice)) {
+            $expected = HerokuInvoice::class;
+            $actual = get_class($invoice);
+            throw new \LogicException(
+                __METHOD__ . " {$expected} が渡されるべきだが {$actual} が来た"
+            );
+        }
         $response = $this->client->post(
             'https://particleboard.heroku.com/account/invoices/' . $invoice->getNumber(),
             [
@@ -56,6 +72,14 @@ class Heroku
                 ],
             ],
         );
-        return $response->getBody()->getContents();
+        return new InvoiceBinary(
+            InvoiceBinary::createName(
+                $invoice->getCreatedAt(),
+                'heroku',
+                $invoice->getId(),
+                InvoiceBinary::EXTENSION_HTML
+            ),
+            $response->getBody()->getContents()
+        );
     }
 }
