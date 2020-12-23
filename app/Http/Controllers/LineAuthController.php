@@ -32,6 +32,5 @@ class LineAuthController
             ]
         );
         $token = $this->line->getToken($code);
-
     }
 }

@@ -50,6 +50,7 @@ class FreeeUser extends Model
                 'id' => $id,
                 'freee_user_id' => $freeeUserId,
                 'freee_token' => $token,
-            ]);
+            ]
+        );
     }
 }

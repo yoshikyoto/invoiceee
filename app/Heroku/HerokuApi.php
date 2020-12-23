@@ -28,7 +28,8 @@ class HerokuApi
     public function getAccountFreatures(OAuth2Token $token): HerokuAccount
     {
         $response = $this->client->get(
-            'https://api.heroku.com/account/features', [
+            'https://api.heroku.com/account/features',
+            [
                 RequestOptions::HEADERS => [
                     'Accept' => 'application/vnd.heroku+json; version=3',
                     'Authorization' => 'Bearer ' . $token->getToken(),
