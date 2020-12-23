@@ -10,7 +10,8 @@
     <h2>invoiceee</h2>
     @if($user === null)
     <div>
-        <a href="{{ $freeeAuthUrl }}">Freeeでアカウント作成・ログイン</a>
+        <a href="{{ $freeeAuthUrl }}">Freeeでアカウント作成・ログイン</a><br>
+        <a href="{{ $lineAuthUrl }}">LINEでアカウント作成・ログイン</a>
     </div>
     @else
     <div>

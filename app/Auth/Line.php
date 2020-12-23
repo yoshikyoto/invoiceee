@@ -25,15 +25,18 @@ class Line
 
     public function getAuthUrl(): string
     {
-        $clientId = env('LINE_CLIENT_ID');
-        $redirectUri = env('LINE_CALLBACK_URL');
+        $clientId = env('LINE_LOGIN_CLIENT_ID');
+        $redirectUri = env('LINE_LOGIN_CALLBACK_URL');
         $params = [
             'client_id' => $clientId,
             'redirect_uri' => $redirectUri,
             'response_type' => 'code',
-            // TODO state はランダムで生成刷る必要がある
+            // TODO state はランダムで生成する必要がある
             'state' => 'test',
             'scope' => 'profile openid',
+            // 認証時に友達登録させたいが、これをつけると動かない
+            // なにか権限が必要？
+            // 'bot_prompt' => 'aggressice',
         ];
         $queryString = http_build_query($params);
         $baseUrl = 'https://access.line.me/oauth2/v2.1/authorize';
@@ -46,10 +49,10 @@ class Line
         $options = [
             RequestOptions::FORM_PARAMS => [
                 'grant_type' => 'authorization_code',
-                'client_id' => env('LINE_CLIENT_ID'),
-                'client_secret' => env('LINE_CLIENT_SECRET'),
+                'client_id' => env('LINE_LOGIN_CLIENT_ID'),
+                'client_secret' => env('LINE_LOGIN_CLIENT_SECRET'),
                 'code' => $code,
-                'redirect_uri' => env('LINE_CALLBACK_URL'),
+                'redirect_uri' => env('LINE_LOGIN_CALLBACK_URL'),
             ]
         ];
         $response = $this->client->post($uri, $options);
