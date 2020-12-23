@@ -18,7 +18,7 @@
         userId: {{ $user->getId() }}
     </div>
     <div>
-        <a href="{{ $lineAuthUrl }}">LINEと連携</a>
+
     </div>
     <div>
         <h3>LINE ユーザー ID を入力して連携</h3>
@@ -40,10 +40,14 @@
         </ul>
     </div>
     <div>
-        <h3>新規アカウント連携</h3>
+        <h3>新規連携（領収書取得先連携）</h3>
         <div>
             <a href="{{ $herokuAuthUrl }}">Herokuと連携</a>
         </div>
+    </div>
+    <div>
+        <h3>通知先追加</h3>
+        <a href="{{ $lineAuthUrl }}">LINEと連携</a>
     </div>
     @endif
     <!--

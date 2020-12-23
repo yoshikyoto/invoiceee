@@ -6,6 +6,7 @@ use App\AbstractFactory\LoggerFactory;
 use App\Auth\Freee;
 use App\Auth\Heroku;
 use App\Auth\Line;
+use App\Http\UserResolver;
 use App\User\UserRepository;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -25,19 +26,22 @@ class Controller extends BaseController
     private Line $line;
     private LoggerInterface $logger;
     private UserRepository $userRepository;
+    private UserResolver $userResolver;
 
     public function __construct(
         Freee $freee,
         Heroku $heroku,
         Line $line,
         LoggerFactory $loggerFactory,
-        UserRepository $userRepository
+        UserRepository $userRepository,
+        UserResolver $userResolver
     ) {
         $this->freee = $freee;
         $this->heroku = $heroku;
         $this->line = $line;
         $this->logger = $loggerFactory->create();
         $this->userRepository = $userRepository;
+        $this->userResolver = $userResolver;
     }
 
     public function index(Request $request)
@@ -46,12 +50,10 @@ class Controller extends BaseController
         $herokuAuthUrl = $this->heroku->getAuthUrl();
         $lineAuthUrl = $this->line->getAuthUrl();
 
-        $userId = $request->session()->get('userId');
-        if ($userId === null) {
-            $user = null;
+        $user = $this->userResolver->getUser($request);
+        if ($user === null) {
             $linkages = null;
         } else {
-            $user = $this->userRepository->get($userId);
             $linkages = $this->userRepository->getAllLinkagesFor($user);
         }
 

@@ -24,25 +24,19 @@ class UserAccountLinker
 
     public function getOrCreateUserWithFreeeToken(OAuth2Token $freeeToken)
     {
-        $freeeUser = $this->freeeApi->getMe($freeeToken);
-        $user = $this->userRepository->getUserByFreeeId($freeeUser->getId());
+        $freeeUserFromApi = $this->freeeApi->getMe($freeeToken);
+        $user = $this->userRepository->getUserByFreeeId($freeeUserFromApi->getId());
 
         if ($user === null) {
             // ユーザーレコードを作成
             $user = $this->userRepository->createUser();
-            $this->userRepository->saveFreeeUserAndToken(
-                $user,
-                $freeeUser,
-                $freeeToken
-            );
-        } else {
-            // ユーザーはすでにあるので free の token だけ更新
-            $this->userRepository->saveFreeeUserAndToken(
-                $user,
-                $freeeUser,
-                $freeeToken
-            );
         }
+
+        $this->userRepository->createOrUpdateFreeeUser(
+            $user,
+            $freeeUserFromApi,
+            $freeeToken
+        );
         return $user;
     }
 

@@ -39,9 +39,17 @@ class FreeeUser extends Model
         ]);
     }
 
-    public static function updateToken(int $id, string $token): void
-    {
-        static::where('id', $id)
-            ->update(['freee_token' => $token]);
+    public static function createOrUpdateFreeeUser(
+        int $id,
+        string $freeeUserId,
+        string $token
+    ): void {
+        static::updateOrCreate(
+            ['id' => $id],
+            [
+                'id' => $id,
+                'freee_user_id' => $freeeUserId,
+                'freee_token' => $token,
+            ]);
     }
 }

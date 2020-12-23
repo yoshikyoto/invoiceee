@@ -4,7 +4,7 @@ namespace App\User;
 
 use App\AbstractFactory\LoggerFactory;
 use App\Auth\OAuth2Token;
-use App\Freee\FreeeUser;
+use App\Freee\FreeeUser as FreeeUserFromApi;
 use App\Model\LineUser;
 use App\Model\Linkage;
 use App\Model\User as UserModel;
@@ -52,29 +52,24 @@ class UserRepository
         return UserModel::createUser();
     }
 
-    public function saveFreeeUserAndToken(
+    public function createOrUpdateFreeeUser(
         User $user,
-        FreeeUser $freeeUser,
+        FreeeUserFromApi $freeeUser,
         OAuth2Token $token
     ): void {
-        $this->logger->info('freee の API token を DB に保存します', [
-            'user' => $user,
-            'freeeUserId' => $freeeUser->getId(),
-            'freeeToken' => $token->getToken(),
-        ]);
-        FreeeUserModel::updateToken(
+        $this->logger->info(
+            '必要であれば freee_user のレコードを作成し、 freee の API token を DB に保存します',
+            [
+                'user' => $user,
+                'freeeUserId' => $freeeUser->getId(),
+                'freeeToken' => $token->getToken(),
+            ]
+        );
+        FreeeUserModel::createOrUpdateFreeeUser(
             $user->getId(),
+            $freeeUser->getId(),
             $token->getToken(),
         );
-    }
-
-    public function updateFreeeToken(User $user, OAuth2Token $token): FreeeUserModel
-    {
-        $this->logger->info('FreeUser DB の freeeToken を更新します', [
-            'userId' => $user->getId(),
-            'freeeToken' => $token->getToken(),
-        ]);
-        return FreeeUserModel::updateToken($user->getId(), $token->getToken());
     }
 
     public function updateLineUserId(User $user, string $lineUserId)

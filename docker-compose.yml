@@ -1,5 +1,5 @@
 services:
-  master_db:
+  invoiceee-db:
     image: mysql:8
     environment:
       MYSQL_DATABASE: invoiceee
@@ -8,4 +8,8 @@ services:
       MYSQL_ROOT_PASSWORD: invoiceee
     ports:
       - "3306:3306"
-
+    volumes:
+      - invoiceee-db:/var/lib/mysql
+volumes:
+  invoiceee-db:
+    driver: local
