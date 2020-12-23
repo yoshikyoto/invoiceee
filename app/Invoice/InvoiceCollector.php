@@ -35,7 +35,7 @@ class InvoiceCollector
     {
         Linkage::chunk(
             100,
-            function(Collection $linkages) {
+            function (Collection $linkages) {
                 foreach ($linkages as $linkage) {
                     /**
                      * @var Linkage $linkage
