@@ -38,7 +38,6 @@ return [
         'sqlite-memory' => [
             'driver'   => 'sqlite',
             'database' => ':memory:', // SQLiteのインメモリ機能を使用
-            'prefix'   => '',
         ],
 
         'mysql' => [
