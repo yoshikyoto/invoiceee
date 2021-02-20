@@ -1,5 +1,18 @@
+version: "3"
 services:
+  invoiceee-app:
+    container_name: invoiceee-app
+    image: php:8.0
+    ports:
+      - 8000:8000
+    volumes:
+      - .:/opt/invoiceee
+    command:
+      - "bash"
+      - "-c"
+      - "cd /opt/invoiceee && php artisan serve --host 0.0.0.0"
   invoiceee-db:
+    container_name: invoiceee-db
     image: mysql:8
     environment:
       MYSQL_DATABASE: invoiceee
